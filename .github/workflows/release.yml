@@ -197,28 +197,35 @@ jobs:
           cp -r "${GITHUB_WORKSPACE}/extension/tmp"/* .
 
           # Prune to keep only the 10 most recent dev versions.
-          # 1) Get old dev versions to remove (sorted by created, drop newest 10)
-          OLD_VERSIONS=$(yq -r '
-            .entries["hetzner-node-driver"]
-            | map(select(.version | test("-dev")))
-            | sort_by(.created)
-            | .[:-10]
-            | .[].version
-          ' index.yaml)
+          DEV_COUNT=$(yq '.entries["hetzner-node-driver"] | map(select(.version | test("-dev"))) | length' index.yaml)
+          echo "Dev versions in index: ${DEV_COUNT}"
 
-          # 2) Delete files for old versions
-          for v in $OLD_VERSIONS; do
-            rm -rf "extensions/${PKG}/${v}" "charts/${PKG}/${v}"
-            rm -f "assets/${PKG}/${PKG}-${v}.tgz" "extensions/${PKG}/${v}.tgz"
-          done
+          if [ "$DEV_COUNT" -gt 10 ]; then
+            # 1) Get old dev versions to remove (sorted by created, drop newest 10)
+            OLD_VERSIONS=$(yq -r '
+              .entries["hetzner-node-driver"]
+              | map(select(.version | test("-dev")))
+              | sort_by(.created)
+              | .[:-10]
+              | .[].version
+            ' index.yaml)
 
-          # 3) Keep only non-dev entries + newest 10 dev entries in index
-          yq -i '
-            .entries["hetzner-node-driver"] |= (
-              map(select(.version | test("-dev") | not)) +
-              (map(select(.version | test("-dev"))) | sort_by(.created) | .[-10:])
-            )
-          ' index.yaml
+            # 2) Delete files for old versions
+            for v in $OLD_VERSIONS; do
+              rm -rf "extensions/${PKG}/${v}" "charts/${PKG}/${v}"
+              rm -f "assets/${PKG}/${PKG}-${v}.tgz" "extensions/${PKG}/${v}.tgz"
+            done
+
+            # 3) Keep only non-dev entries + newest 10 dev entries in index
+            yq -i '
+              .entries["hetzner-node-driver"] |= (
+                map(select(.version | test("-dev") | not)) +
+                (map(select(.version | test("-dev"))) | sort_by(.created) | .[-10:])
+              )
+            ' index.yaml
+          else
+            echo "Skipping prune — only ${DEV_COUNT} dev version(s), threshold is 10"
+          fi
 
           git add -A
           git commit -m "Publish extension ${VERSION}" || true
