@@ -33,84 +33,18 @@ You can test the driver binary directly:
 ./docker-machine-driver-hetzner --version
 ```
 
-### Packaging and Deploying a New Version
-
-**Step 1: Build and package**
+### Running Tests
 
 ```bash
 cd driver/
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
-  -ldflags "-X main.version=1.0.2" \
-  -o docker-machine-driver-hetzner \
-  ./cmd/docker-machine-driver-hetzner
-
-tar czf docker-machine-driver-hetzner.tar.gz docker-machine-driver-hetzner
+make test
 ```
 
-**Step 2: Upload to your hosting (S3, Hetzner Object Storage, etc.)**
+Tests mock the Hetzner API at the HTTP level using `httptest.NewServer`. See [Contributing](contributing.md#testing-notes) for details on writing tests.
 
-```bash
-aws s3 cp docker-machine-driver-hetzner.tar.gz \
-  s3://your-bucket/docker-machine-driver-hetzner.tar.gz \
-  --endpoint-url https://your-endpoint
-```
+### Releasing
 
-**Step 3: Force Rancher to re-download the binary**
-
-Rancher caches the driver binary internally and serves it to provisioning pods
-from `/assets/`. Simply uploading a new file to S3 is not enough — Rancher must
-be told to re-download it.
-
-Option A — Change the URL (recommended):
-
-```bash
-# Bump the version query parameter to bust the cache
-kubectl patch nodedriver.management.cattle.io/hetzner --type=merge -p '{
-  "spec": {
-    "active": false
-  }
-}'
-
-sleep 3
-
-kubectl patch nodedriver.management.cattle.io/hetzner --type=merge -p '{
-  "spec": {
-    "url": "https://your-bucket/docker-machine-driver-hetzner.tar.gz?v=NEW_VERSION",
-    "active": true
-  },
-  "status": {
-    "appliedURL": ""
-  }
-}'
-```
-
-Option B — Deactivate/reactivate cycle:
-
-```bash
-# Deactivate
-kubectl patch nodedriver.management.cattle.io/hetzner --type=merge \
-  -p '{"spec":{"active":false}}'
-
-sleep 3
-
-# Clear applied URL and reactivate
-kubectl patch nodedriver.management.cattle.io/hetzner --type=merge \
-  -p '{"spec":{"active":true},"status":{"appliedURL":""}}'
-```
-
-**Step 4: Verify the new binary is in use**
-
-```bash
-# Check the driver was re-downloaded (look for fresh timestamp)
-kubectl get nodedriver.management.cattle.io/hetzner -o yaml | grep -A2 Downloaded
-
-# Create a test cluster, then check the provisioning pod logs:
-kubectl logs -n fleet-default <machine-provision-pod> | head -10
-# The BuildID in the `file` output should differ from the previous version
-```
-
-**Note:** Existing clusters are not affected by driver updates. Only new machine
-provisioning jobs will use the updated binary.
+Releases are fully automated — pushing to any tracked branch triggers a build and publish. See the [Releasing](releasing.md) page for the full version scheme, what gets published, and how to test dev builds.
 
 ## UI Extension Development
 
@@ -159,3 +93,6 @@ yarn build-pkg hetzner-node-driver
 ```
 
 Output is in `dist-pkg/`. This can be served as a Rancher UIPlugin.
+
+!!! note
+    In CI, the build uses `yarn publish-pkgs` instead of `yarn build-pkg`. This builds the extension **and** creates the Helm chart and index files for the extension repository. You generally don't need to run this locally — see [Releasing](releasing.md) for how the automated pipeline works.

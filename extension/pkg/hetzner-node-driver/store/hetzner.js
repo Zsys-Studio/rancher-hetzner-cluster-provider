@@ -90,32 +90,53 @@ export const actions = {
   },
 
   async imageOptions({ dispatch }, { credentialId, architecture = 'x86' }) {
-    const data = await dispatch('cachedCommand', { credentialId, command: 'images', params: { type: 'system', status: 'available', architecture } });
+    const [systemData, snapshotData] = await Promise.all([
+      dispatch('cachedCommand', {
+        credentialId,
+        command: 'images',
+        params:  { type: 'system', status: 'available', architecture },
+      }),
+      dispatch('cachedCommand', {
+        credentialId,
+        command: 'images',
+        params:  { type: 'snapshot', status: 'available', architecture },
+      }),
+    ]);
 
-    const out = (data.images || [])
+    // System images — filtered by known distro name patterns
+    const systemImages = (systemData.images || [])
       .filter((img) => {
         if (!img.name) {
           return false;
         }
 
-        for (const re of VALID_IMAGES) {
-          if (img.name.match(re)) {
-            return true;
-          }
-        }
-
-        return false;
+        return VALID_IMAGES.some((re) => img.name.match(re));
       })
-      .map((img) => {
-        const label = img.description || `${ img.os_flavor } ${ img.os_version }`;
+      .map((img) => ({
+        label: img.description || `${ img.os_flavor } ${ img.os_version }`,
+        value: img.name,
+      }));
 
-        return {
-          label,
-          value: img.name,
-        };
-      });
+    // Snapshots — no name filter, use numeric ID as value for driver's resolveImage()
+    const snapshots = (snapshotData.images || [])
+      .map((img) => ({
+        label: img.description ? `${ img.description } (#${ img.id })` : `Snapshot #${ img.id }`,
+        value: `${ img.id }`,
+      }));
 
-    return sortBy(out, 'label');
+    const out = [];
+
+    if (systemImages.length) {
+      out.push({ kind: 'group', label: 'System Images' });
+      out.push(...sortBy(systemImages, 'label'));
+    }
+
+    if (snapshots.length) {
+      out.push({ kind: 'group', label: 'Snapshots' });
+      out.push(...sortBy(snapshots, 'label'));
+    }
+
+    return out;
   },
 
   async networkOptions({ dispatch }, { credentialId }) {

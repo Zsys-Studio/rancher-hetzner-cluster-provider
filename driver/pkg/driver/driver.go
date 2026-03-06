@@ -168,12 +168,9 @@ func (d *Driver) PreCreateCheck() error {
 	// Validate image exists for the server type's architecture
 	arch := serverType.Architecture
 	log.Infof("Server type %q uses architecture %s", d.ServerType, arch)
-	image, _, err := d.getClient().Image.GetByNameAndArchitecture(ctx, d.Image, arch)
+	_, err = d.resolveImage(ctx, d.Image, arch)
 	if err != nil {
 		return fmt.Errorf("invalid image %q for architecture %s: %w", d.Image, arch, err)
-	}
-	if image == nil {
-		return fmt.Errorf("image %q not found for architecture %s", d.Image, arch)
 	}
 
 	// Validate existing SSH key if specified
@@ -348,12 +345,9 @@ func (d *Driver) buildServerCreateOpts(ctx context.Context, autoSSHKey *hcloud.S
 	// Use the server type's architecture to find the matching image
 	arch := serverType.Architecture
 	log.Infof("Resolving image %q for architecture %s", d.Image, arch)
-	image, _, err := d.getClient().Image.GetByNameAndArchitecture(ctx, d.Image, arch)
+	image, err := d.resolveImage(ctx, d.Image, arch)
 	if err != nil {
 		return nil, fmt.Errorf("image %q not found for architecture %s: %w", d.Image, arch, err)
-	}
-	if image == nil {
-		return nil, fmt.Errorf("image %q not found for architecture %s", d.Image, arch)
 	}
 
 	location, _, err := d.getClient().Location.GetByName(ctx, d.ServerLocation)
@@ -464,6 +458,33 @@ func (d *Driver) buildSSHKeyList(autoKey *hcloud.SSHKey, existingKey *hcloud.SSH
 		keys = append(keys, existingKey)
 	}
 	return keys
+}
+
+func (d *Driver) resolveImage(ctx context.Context, ref string, arch hcloud.Architecture) (*hcloud.Image, error) {
+	// Try by ID first (supports Hetzner snapshots which have numeric IDs).
+	// hcloud-go returns (nil, nil) for 404, so a not-found ID falls through
+	// to the name+architecture lookup below.
+	if id, err := strconv.ParseInt(ref, 10, 64); err == nil {
+		image, _, err := d.getClient().Image.GetByID(ctx, id)
+		if err != nil {
+			return nil, err
+		}
+		if image != nil {
+			if image.Architecture != arch {
+				return nil, fmt.Errorf("image %d has architecture %s, expected %s", id, image.Architecture, arch)
+			}
+			return image, nil
+		}
+	}
+	// Try by name + architecture
+	image, _, err := d.getClient().Image.GetByNameAndArchitecture(ctx, ref, arch)
+	if err != nil {
+		return nil, err
+	}
+	if image == nil {
+		return nil, fmt.Errorf("image %q not found for architecture %s", ref, arch)
+	}
+	return image, nil
 }
 
 func (d *Driver) resolveNetwork(ctx context.Context, ref string) (*hcloud.Network, error) {

@@ -47,16 +47,18 @@ The Go driver tests mock the Hetzner API at the HTTP level using `httptest.NewSe
 
 ### Branching Strategy
 
-| Branch | Purpose | Release |
-|--------|---------|---------|
-| `feature/*` | New features and fixes | Pre-release on push |
-| `develop` | Integration branch | Pre-release on push |
-| `main` | Stable releases | Auto-incremented semver |
+| Branch | Purpose | Driver release | Extension publish |
+|--------|---------|---------------|-------------------|
+| `feature/*`, `fix/*` | New features and fixes | Pre-release on push | → `rancher-extension-dev` |
+| `develop` | Integration branch | Pre-release on push | → `rancher-extension-dev` |
+| `main` | Stable releases | Auto-incremented semver | → `rancher-extension` |
 
 1. Create a feature branch from `develop`
 2. Open a PR targeting `develop`
-3. Once merged, `develop` gets a pre-release for testing
+3. Once merged, `develop` gets a pre-release for testing (both driver and extension)
 4. When ready, `develop` is merged to `main` for a stable release
+
+Driver and extension always share the same version. See [Releasing](releasing.md) for the full versioning scheme, automated publishing details, and how to test dev builds in Rancher.
 
 ## Submitting Changes
 
