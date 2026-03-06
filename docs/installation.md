@@ -133,7 +133,7 @@ instead of generic text fields, plus firewall configuration controls.
 5. Go back to **Extensions > Available** tab
 6. Find **Hetzner Cloud Node Driver** and click **Install**
 
-The extension is published to the `rancher-extension` branch of the GitHub repository. Rancher indexes this branch as a Helm chart repository and makes the extension available for installation.
+The extension is published to the `rancher-extension` branch of the GitHub repository. Rancher indexes this branch as a Helm chart repository and makes the extension available for installation. The extension version always matches the driver version (e.g., `0.9.0` for both).
 
 Alternatively, add the repository via kubectl:
 

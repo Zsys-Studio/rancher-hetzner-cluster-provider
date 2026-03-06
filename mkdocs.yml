@@ -70,4 +70,5 @@ nav:
   - Known Issues: known-issues.md
   - Development:
       - Development Guide: development.md
+      - Releasing: releasing.md
       - Contributing: contributing.md

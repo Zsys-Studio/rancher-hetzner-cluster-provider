@@ -2,7 +2,7 @@ name: Release
 
 on:
   push:
-    branches: [main, develop, 'feature/**']
+    branches: [main, develop, 'feature/**', 'fix/**']
 
 concurrency:
   group: release-${{ github.ref_name }}
@@ -85,8 +85,8 @@ jobs:
       # ─── Create git tag ───
       - name: Create git tag
         run: |
-          git tag "${{ steps.version.outputs.tag }}"
-          git push origin "${{ steps.version.outputs.tag }}"
+          git tag -f "${{ steps.version.outputs.tag }}"
+          git push origin "${{ steps.version.outputs.tag }}" --force
 
       # ─── Test driver ───
       - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
@@ -109,7 +109,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GORELEASER_CURRENT_TAG: ${{ steps.version.outputs.tag }}
 
-      # ─── Build extension ───
+      # ─── Build and package extension ───
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '20'
@@ -120,11 +120,27 @@ jobs:
         working-directory: extension
         run: yarn install --frozen-lockfile
 
-      - name: Build extension
-        working-directory: extension
+      - name: Install yq
+        run: |
+          YQ_VERSION=v4.44.6
+          YQ_SHA256="0c2b24e645b57d8e7c0566d18643a6d4f5580feeea3878127354a46f2a1e4598"
+          sudo wget -qO /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64"
+          echo "${YQ_SHA256}  /usr/local/bin/yq" | sha256sum --check
+          sudo chmod +x /usr/local/bin/yq
+
+      - name: Set extension version
+        working-directory: extension/pkg/hetzner-node-driver
         env:
           VERSION: ${{ steps.version.outputs.version }}
-        run: yarn build-pkg hetzner-node-driver
+        run: |
+          jq --arg v "$VERSION" '.version = $v' package.json > tmp.json && mv tmp.json package.json
+          echo "Extension version set to: ${VERSION}"
+
+      - name: Build and package extension
+        working-directory: extension
+        env:
+          TARGET_BRANCH: ${{ github.ref_name == 'main' && 'rancher-extension' || 'rancher-extension-dev' }}
+        run: yarn publish-pkgs -s zsys-studio/rancher-hetzner-cluster-provider -b ${TARGET_BRANCH} -f
 
       # ─── Upload extension to release ───
       - name: Upload extension to release
@@ -138,3 +154,79 @@ jobs:
           tar -czf "../${TARBALL}" -C "hetzner-node-driver-${VERSION}" .
           cd ..
           gh release upload "$TAG" "$TARBALL" --clobber
+
+      # ─── Publish extension to Helm repo branch ───
+      - name: Publish extension to rancher-extension
+        if: github.ref_name == 'main'
+        uses: peaceiris/actions-gh-pages@e9c66a37f080288a11235e32cbe2dc5fb3a679cc # v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: rancher-extension
+          publish_dir: extension/tmp
+          keep_files: true
+
+      - name: Publish extension to rancher-extension-dev
+        if: github.ref_name != 'main'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          PKG="hetzner-node-driver"
+          TARGET_BRANCH="rancher-extension-dev"
+
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Fetch or create target branch
+          if git ls-remote --exit-code --heads origin "${TARGET_BRANCH}" >/dev/null 2>&1; then
+            git fetch origin "${TARGET_BRANCH}"
+            git worktree add /tmp/ext "origin/${TARGET_BRANCH}"
+          else
+            git switch --orphan "${TARGET_BRANCH}"
+            touch .nojekyll
+            git add .nojekyll
+            git commit -m "Initialize ${TARGET_BRANCH}"
+            git push origin "${TARGET_BRANCH}"
+            git switch -
+            git fetch origin "${TARGET_BRANCH}"
+            git worktree add /tmp/ext "origin/${TARGET_BRANCH}"
+          fi
+
+          cd /tmp/ext
+
+          # Copy new build
+          cp -r "${GITHUB_WORKSPACE}/extension/tmp"/* .
+
+          # Prune to keep only the 10 most recent dev versions.
+          DEV_COUNT=$(yq '.entries["hetzner-node-driver"] | map(select(.version | test("-dev"))) | length' index.yaml)
+          echo "Dev versions in index: ${DEV_COUNT}"
+
+          if [ "$DEV_COUNT" -gt 10 ]; then
+            # 1) Get old dev versions to remove (sorted by created, drop newest 10)
+            OLD_VERSIONS=$(yq -r '
+              .entries["hetzner-node-driver"]
+              | map(select(.version | test("-dev")))
+              | sort_by(.created)
+              | .[:-10]
+              | .[].version
+            ' index.yaml)
+
+            # 2) Delete files for old versions
+            for v in $OLD_VERSIONS; do
+              rm -rf "extensions/${PKG}/${v}" "charts/${PKG}/${v}"
+              rm -f "assets/${PKG}/${PKG}-${v}.tgz" "extensions/${PKG}/${v}.tgz"
+            done
+
+            # 3) Keep only non-dev entries + newest 10 dev entries in index
+            yq -i '
+              .entries["hetzner-node-driver"] |= (
+                map(select(.version | test("-dev") | not)) +
+                (map(select(.version | test("-dev"))) | sort_by(.created) | .[-10:])
+              )
+            ' index.yaml
+          else
+            echo "Skipping prune — only ${DEV_COUNT} dev version(s), threshold is 10"
+          fi
+
+          git add -A
+          git commit -m "Publish extension ${VERSION}" || true
+          git push origin HEAD:"${TARGET_BRANCH}"
