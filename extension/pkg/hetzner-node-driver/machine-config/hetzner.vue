@@ -99,8 +99,8 @@ export default {
 
       let defaultImage = 'ubuntu-24.04';
 
-      if (!this.imageOptions.find((x) => x.value === defaultImage)) {
-        defaultImage = this.imageOptions[0]?.value;
+      if (!this.imageOptions.find((x) => x.kind !== 'group' && x.value === defaultImage)) {
+        defaultImage = this.imageOptions.find((x) => x.kind !== 'group')?.value;
       }
 
       if (!this.value.image) {
@@ -252,8 +252,8 @@ export default {
         });
 
         // Reset selected image if it's no longer available for this architecture
-        if (this.value.image && !this.imageOptions.find((x) => x.value === this.value.image)) {
-          this.value.image = this.imageOptions[0]?.value || '';
+        if (this.value.image && !this.imageOptions.find((x) => x.kind !== 'group' && x.value === this.value.image)) {
+          this.value.image = this.imageOptions.find((x) => x.kind !== 'group')?.value || '';
         }
       } catch (e) {
         console.error('Error refreshing images for architecture:', architecture, e);

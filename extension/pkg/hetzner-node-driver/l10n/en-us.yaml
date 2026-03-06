@@ -14,7 +14,7 @@ cluster:
       serverType:
         label: Server Type
       image:
-        label: OS Image
+        label: Image
       additionalOptions:
         label: Additional Hetzner Options
       usePrivateNetwork:
