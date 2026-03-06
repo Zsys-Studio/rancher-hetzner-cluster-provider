@@ -85,8 +85,16 @@ jobs:
       # ─── Create git tag ───
       - name: Create git tag
         run: |
-          git tag -f "${{ steps.version.outputs.tag }}"
-          git push origin "${{ steps.version.outputs.tag }}" --force
+          TAG="${{ steps.version.outputs.tag }}"
+          if [[ "$TAG" == *"-dev"* ]]; then
+            # Dev tags may already exist from a previous failed run; force-update
+            git tag -f "$TAG"
+            git push origin "$TAG" --force
+          else
+            # Stable tags must be unique — fail fast if already taken
+            git tag "$TAG"
+            git push origin "$TAG"
+          fi
 
       # ─── Test driver ───
       - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5

@@ -461,7 +461,9 @@ func (d *Driver) buildSSHKeyList(autoKey *hcloud.SSHKey, existingKey *hcloud.SSH
 }
 
 func (d *Driver) resolveImage(ctx context.Context, ref string, arch hcloud.Architecture) (*hcloud.Image, error) {
-	// Try by ID first (supports Hetzner snapshots which have numeric IDs)
+	// Try by ID first (supports Hetzner snapshots which have numeric IDs).
+	// hcloud-go returns (nil, nil) for 404, so a not-found ID falls through
+	// to the name+architecture lookup below.
 	if id, err := strconv.ParseInt(ref, 10, 64); err == nil {
 		image, _, err := d.getClient().Image.GetByID(ctx, id)
 		if err != nil {

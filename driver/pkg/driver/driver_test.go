@@ -1032,7 +1032,9 @@ func TestResolveImage_WrongArchitecture(t *testing.T) {
 }
 
 func TestResolveImage_NumericIDNotFound_FallsBackToName(t *testing.T) {
-	// A numeric string that doesn't match any image by ID should fall back to name lookup.
+	// A numeric string that doesn't match any image by ID should fall back
+	// to name+architecture lookup. Prove this by returning a valid image
+	// from the name-based endpoint after the ID lookup returns 404.
 	mux := http.NewServeMux()
 	mux.HandleFunc("/images/999", func(w http.ResponseWriter, r *http.Request) {
 		jsonResponse(w, http.StatusNotFound, schema.ErrorResponse{
@@ -1040,20 +1042,22 @@ func TestResolveImage_NumericIDNotFound_FallsBackToName(t *testing.T) {
 		})
 	})
 	mux.HandleFunc("/images", func(w http.ResponseWriter, r *http.Request) {
-		// Only return images when name matches
 		if name := r.URL.Query().Get("name"); name == "999" {
-			jsonResponse(w, http.StatusOK, schema.ImageListResponse{Images: []schema.Image{}})
+			jsonResponse(w, http.StatusOK, schema.ImageListResponse{
+				Images: []schema.Image{standardImage()},
+			})
 			return
 		}
-		jsonResponse(w, http.StatusOK, schema.ImageListResponse{
-			Images: []schema.Image{standardImage()},
-		})
+		jsonResponse(w, http.StatusOK, schema.ImageListResponse{Images: []schema.Image{}})
 	})
 
 	d, _ := newTestDriver(t, mux)
-	_, err := d.resolveImage(testCtx(t), "999", hcloud.ArchitectureX86)
-	if err == nil {
-		t.Fatal("expected error when numeric ID not found and name doesn't match")
+	img, err := d.resolveImage(testCtx(t), "999", hcloud.ArchitectureX86)
+	if err != nil {
+		t.Fatalf("resolveImage() error = %v, want no error when falling back to name", err)
+	}
+	if img.ID != standardImage().ID {
+		t.Errorf("resolved image ID = %d, want %d (from name-based lookup)", img.ID, standardImage().ID)
 	}
 }
 
