@@ -120,7 +120,7 @@ export const actions = {
     // Snapshots — no name filter, use numeric ID as value for driver's resolveImage()
     const snapshots = (snapshotData.images || [])
       .map((img) => ({
-        label: img.description || `Snapshot #${ img.id }`,
+        label: img.description ? `${ img.description } (#${ img.id })` : `Snapshot #${ img.id }`,
         value: `${ img.id }`,
       }));
 
