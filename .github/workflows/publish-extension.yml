@@ -2,7 +2,7 @@ name: Publish Extension
 
 on:
   push:
-    branches: [main]
+    branches: [main, develop]
 
 concurrency:
   group: publish-extension
@@ -39,6 +39,14 @@ jobs:
           sudo wget -qO /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64"
           echo "${YQ_SHA256}  /usr/local/bin/yq" | sha256sum --check
           sudo chmod +x /usr/local/bin/yq
+
+      - name: Set dev version for pre-release
+        if: github.ref_name == 'develop'
+        run: |
+          cd pkg/hetzner-node-driver
+          VERSION=$(jq -r .version package.json)
+          jq --arg v "${VERSION}-dev" '.version = $v' package.json > tmp.json && mv tmp.json package.json
+          echo "Extension version set to: ${VERSION}-dev"
 
       - name: Build and package extension
         run: yarn publish-pkgs -s zsys-studio/rancher-hetzner-cluster-provider -b rancher-extension -f
