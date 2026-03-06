@@ -944,6 +944,119 @@ func TestRemove_DeleteFails_ReturnsError(t *testing.T) {
 // Resolver tests
 // ---------------------------------------------------------------------------
 
+func TestResolveImage_ByID(t *testing.T) {
+	// Snapshots have numeric IDs and no name — resolveImage should find them via GetByID.
+	mux := http.NewServeMux()
+	mux.HandleFunc("/images/363889876", func(w http.ResponseWriter, r *http.Request) {
+		jsonResponse(w, http.StatusOK, schema.ImageGetResponse{
+			Image: schema.Image{
+				ID:           363889876,
+				Description:  "rke2-cis-base",
+				Status:       "available",
+				Type:         "snapshot",
+				Architecture: "x86",
+			},
+		})
+	})
+
+	d, _ := newTestDriver(t, mux)
+	img, err := d.resolveImage(testCtx(t), "363889876", hcloud.ArchitectureX86)
+	if err != nil {
+		t.Fatalf("resolveImage() error: %v", err)
+	}
+	if img.ID != 363889876 {
+		t.Errorf("got image ID=%d, want 363889876", img.ID)
+	}
+	if img.Type != hcloud.ImageTypeSnapshot {
+		t.Errorf("got image Type=%s, want snapshot", img.Type)
+	}
+}
+
+func TestResolveImage_ByName(t *testing.T) {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/images", func(w http.ResponseWriter, r *http.Request) {
+		jsonResponse(w, http.StatusOK, schema.ImageListResponse{
+			Images: []schema.Image{standardImage()},
+		})
+	})
+
+	d, _ := newTestDriver(t, mux)
+	img, err := d.resolveImage(testCtx(t), "ubuntu-24.04", hcloud.ArchitectureX86)
+	if err != nil {
+		t.Fatalf("resolveImage() error: %v", err)
+	}
+	if img.ID != 1 {
+		t.Errorf("got image ID=%d, want 1", img.ID)
+	}
+}
+
+func TestResolveImage_NotFound(t *testing.T) {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/images", func(w http.ResponseWriter, r *http.Request) {
+		jsonResponse(w, http.StatusOK, schema.ImageListResponse{Images: []schema.Image{}})
+	})
+
+	d, _ := newTestDriver(t, mux)
+	_, err := d.resolveImage(testCtx(t), "nonexistent", hcloud.ArchitectureX86)
+	if err == nil {
+		t.Fatal("expected error for nonexistent image")
+	}
+	if !strings.Contains(err.Error(), "not found") {
+		t.Errorf("error = %q, want it to contain 'not found'", err)
+	}
+}
+
+func TestResolveImage_WrongArchitecture(t *testing.T) {
+	// Snapshot exists but has x86 architecture; we request arm64 — should fail.
+	mux := http.NewServeMux()
+	mux.HandleFunc("/images/100", func(w http.ResponseWriter, r *http.Request) {
+		jsonResponse(w, http.StatusOK, schema.ImageGetResponse{
+			Image: schema.Image{
+				ID:           100,
+				Description:  "x86-only-snapshot",
+				Status:       "available",
+				Type:         "snapshot",
+				Architecture: "x86",
+			},
+		})
+	})
+
+	d, _ := newTestDriver(t, mux)
+	_, err := d.resolveImage(testCtx(t), "100", hcloud.ArchitectureARM)
+	if err == nil {
+		t.Fatal("expected error for architecture mismatch")
+	}
+	if !strings.Contains(err.Error(), "architecture") {
+		t.Errorf("error = %q, want it to mention 'architecture'", err)
+	}
+}
+
+func TestResolveImage_NumericIDNotFound_FallsBackToName(t *testing.T) {
+	// A numeric string that doesn't match any image by ID should fall back to name lookup.
+	mux := http.NewServeMux()
+	mux.HandleFunc("/images/999", func(w http.ResponseWriter, r *http.Request) {
+		jsonResponse(w, http.StatusNotFound, schema.ErrorResponse{
+			Error: schema.Error{Code: "not_found", Message: "image not found"},
+		})
+	})
+	mux.HandleFunc("/images", func(w http.ResponseWriter, r *http.Request) {
+		// Only return images when name matches
+		if name := r.URL.Query().Get("name"); name == "999" {
+			jsonResponse(w, http.StatusOK, schema.ImageListResponse{Images: []schema.Image{}})
+			return
+		}
+		jsonResponse(w, http.StatusOK, schema.ImageListResponse{
+			Images: []schema.Image{standardImage()},
+		})
+	})
+
+	d, _ := newTestDriver(t, mux)
+	_, err := d.resolveImage(testCtx(t), "999", hcloud.ArchitectureX86)
+	if err == nil {
+		t.Fatal("expected error when numeric ID not found and name doesn't match")
+	}
+}
+
 func TestResolveNetwork_ByID(t *testing.T) {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/networks/42", func(w http.ResponseWriter, r *http.Request) {
