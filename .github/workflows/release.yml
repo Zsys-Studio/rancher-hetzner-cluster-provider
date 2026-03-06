@@ -85,8 +85,8 @@ jobs:
       # ─── Create git tag ───
       - name: Create git tag
         run: |
-          git tag "${{ steps.version.outputs.tag }}"
-          git push origin "${{ steps.version.outputs.tag }}"
+          git tag -f "${{ steps.version.outputs.tag }}"
+          git push origin "${{ steps.version.outputs.tag }}" --force
 
       # ─── Test driver ───
       - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
