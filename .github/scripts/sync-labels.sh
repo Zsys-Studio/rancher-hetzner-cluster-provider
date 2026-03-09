@@ -19,7 +19,7 @@ if [[ ! -f "$LABELS_FILE" ]]; then
 fi
 
 command -v gh >/dev/null 2>&1 || { echo "Error: gh CLI not found" >&2; exit 1; }
-command -v yq >/dev/null 2>&1 || { echo "Error: yq not found (brew install yq)" >&2; exit 1; }
+command -v yq >/dev/null 2>&1 || { echo "Error: yq (mikefarah flavor) not found. See https://github.com/mikefarah/yq#install for installation options." >&2; exit 1; }
 
 DELETE_UNKNOWN=false
 if [[ "${1:-}" == "--delete-unknown" ]]; then
@@ -36,7 +36,7 @@ for ((i = 0; i < COUNT; i++)); do
   DESC=$(yq -r ".[$i].description" "$LABELS_FILE")
   DEFINED_LABELS+=("$NAME")
 
-  if gh label list --search "$NAME" --json name --jq '.[].name' | grep -qx "$NAME" 2>/dev/null; then
+  if gh label list --search "$NAME" --json name --jq '.[].name' | grep -Fqxi "$NAME" 2>/dev/null; then
     echo "Updating: $NAME"
     gh label edit "$NAME" --color "$COLOR" --description "$DESC"
   else
