@@ -62,7 +62,7 @@
   description: Good for newcomers
 
 - name: wontfix
-  color: "ffffff"
+  color: "e6e6e6"
   description: Will not be addressed
 
 - name: duplicate

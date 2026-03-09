@@ -68,9 +68,8 @@ body:
     id: driver-version
     attributes:
       label: Driver version
+      description: If this bug is not related to the machine driver (e.g. UI extension only), enter "N/A".
       placeholder: e.g. v0.9.0 or v0.0.0-dev.develop.44279ff
-    validations:
-      required: true
 
   - type: input
     id: extension-version

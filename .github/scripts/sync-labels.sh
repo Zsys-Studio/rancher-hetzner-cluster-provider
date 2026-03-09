@@ -11,7 +11,15 @@
 
 set -euo pipefail
 
-LABELS_FILE="$(git rev-parse --show-toplevel)/.github/labels.yml"
+# Ensure we are inside a git repository and determine its root
+if ! REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"; then
+  echo "Error: This script must be run inside a git repository." >&2
+  exit 1
+fi
+
+cd "$REPO_ROOT"
+
+LABELS_FILE="$REPO_ROOT/.github/labels.yml"
 
 if [[ ! -f "$LABELS_FILE" ]]; then
   echo "Error: $LABELS_FILE not found" >&2
@@ -26,7 +34,13 @@ if [[ "${1:-}" == "--delete-unknown" ]]; then
   DELETE_UNKNOWN=true
 fi
 
-# Read defined labels
+# Fetch all existing labels once (key: lowercase name, value: original name)
+declare -A EXISTING_LABELS
+while IFS= read -r label; do
+  EXISTING_LABELS["${label,,}"]="$label"
+done < <(gh label list --limit 1000 --json name --jq '.[].name')
+
+# Read defined labels and create/update as needed
 DEFINED_LABELS=()
 COUNT=$(yq 'length' "$LABELS_FILE")
 
@@ -36,7 +50,7 @@ for ((i = 0; i < COUNT; i++)); do
   DESC=$(yq -r ".[$i].description" "$LABELS_FILE")
   DEFINED_LABELS+=("$NAME")
 
-  if gh label list --search "$NAME" --json name --jq '.[].name' | grep -Fqxi "$NAME" 2>/dev/null; then
+  if [[ -v "EXISTING_LABELS[${NAME,,}]" ]]; then
     echo "Updating: $NAME"
     gh label edit "$NAME" --color "$COLOR" --description "$DESC"
   else
@@ -49,19 +63,20 @@ done
 if [[ "$DELETE_UNKNOWN" == true ]]; then
   echo ""
   echo "Checking for unknown labels..."
-  while IFS= read -r EXISTING; do
+  for key in "${!EXISTING_LABELS[@]}"; do
+    ORIGINAL="${EXISTING_LABELS[$key]}"
     FOUND=false
     for DEFINED in "${DEFINED_LABELS[@]}"; do
-      if [[ "$EXISTING" == "$DEFINED" ]]; then
+      if [[ "$key" == "${DEFINED,,}" ]]; then
         FOUND=true
         break
       fi
     done
     if [[ "$FOUND" == false ]]; then
-      echo "Deleting: $EXISTING"
-      gh label delete "$EXISTING" --yes
+      echo "Deleting: $ORIGINAL"
+      gh label delete "$ORIGINAL" --yes
     fi
-  done < <(gh label list --json name --jq '.[].name')
+  done
 fi
 
 echo ""
