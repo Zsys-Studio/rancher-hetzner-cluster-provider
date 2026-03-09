@@ -4,9 +4,9 @@ plugin:
   enabled: true
   versionOverride: ""
   endpoint: >-
-    https://raw.githubusercontent.com/zsys-studio/rancher-hetzner-cluster-provider/rancher-extension-dev/extensions/hetzner-node-driver/0.0.0-dev.develop.cad23f0
+    https://raw.githubusercontent.com/zsys-studio/rancher-hetzner-cluster-provider/rancher-extension-dev/extensions/hetzner-node-driver/0.0.0-dev.develop.113fa77
   compressedEndpoint: >-
-    https://raw.githubusercontent.com/zsys-studio/rancher-hetzner-cluster-provider/rancher-extension-dev/extensions/hetzner-node-driver/0.0.0-dev.develop.cad23f0.tgz
+    https://raw.githubusercontent.com/zsys-studio/rancher-hetzner-cluster-provider/rancher-extension-dev/extensions/hetzner-node-driver/0.0.0-dev.develop.113fa77.tgz
   noCache: false
   noAuth: false
   metadata:

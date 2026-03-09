@@ -1,245 +1,245 @@
 apiVersion: v1
 entries:
   hetzner-node-driver:
-  - annotations:
-      catalog.cattle.io/certified: rancher
-      catalog.cattle.io/display-name: Hetzner Cloud Node Driver
-      catalog.cattle.io/kube-version: '>= 1.26.0'
-      catalog.cattle.io/namespace: cattle-ui-plugin-system
-      catalog.cattle.io/os: linux
-      catalog.cattle.io/permits-os: linux, windows
-      catalog.cattle.io/rancher-version: '>= 2.11.0 < 2.14.0'
-      catalog.cattle.io/scope: management
-      catalog.cattle.io/ui-component: plugins
-      catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
-    apiVersion: v2
-    appVersion: 1.0.0
-    created: "2026-02-16T08:01:25.162771923Z"
-    description: Hetzner Cloud Node Driver for Rancher
-    digest: fedf7da5e23af05fe6d84610ebdbf1cffa940c05b25eaaa2cc5d7a8c246df23b
-    name: hetzner-node-driver
-    type: application
-    urls:
-    - assets/hetzner-node-driver/hetzner-node-driver-1.0.0.tgz
-    version: 1.0.0
-  - annotations:
-      catalog.cattle.io/certified: rancher
-      catalog.cattle.io/display-name: Hetzner Cloud Node Driver
-      catalog.cattle.io/kube-version: '>= 1.26.0'
-      catalog.cattle.io/namespace: cattle-ui-plugin-system
-      catalog.cattle.io/os: linux
-      catalog.cattle.io/permits-os: linux, windows
-      catalog.cattle.io/rancher-version: '>= 2.11.0 < 2.14.0'
-      catalog.cattle.io/scope: management
-      catalog.cattle.io/ui-component: plugins
-      catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
-    apiVersion: v2
-    appVersion: 0.0.0-dev.feature-release-notes.d6f4b58
-    created: "2026-03-06T19:15:26.602069896Z"
-    description: Hetzner Cloud Node Driver for Rancher
-    digest: 5307c59f186a5b1b509ce3a166ed59434dc4f33ef04743d89dfa72352ab044d9
-    icon: https://raw.githubusercontent.com/Zsys-Studio/rancher-hetzner-cluster-provider/main/docs/assets/logo.svg
-    name: hetzner-node-driver
-    type: application
-    urls:
-    - assets/hetzner-node-driver/hetzner-node-driver-0.0.0-dev.feature-release-notes.d6f4b58.tgz
-    version: 0.0.0-dev.feature-release-notes.d6f4b58
-  - annotations:
-      catalog.cattle.io/certified: rancher
-      catalog.cattle.io/display-name: Hetzner Cloud Node Driver
-      catalog.cattle.io/kube-version: '>= 1.26.0'
-      catalog.cattle.io/namespace: cattle-ui-plugin-system
-      catalog.cattle.io/os: linux
-      catalog.cattle.io/permits-os: linux, windows
-      catalog.cattle.io/rancher-version: '>= 2.11.0 < 2.14.0'
-      catalog.cattle.io/scope: management
-      catalog.cattle.io/ui-component: plugins
-      catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
-    apiVersion: v2
-    appVersion: 0.0.0-dev.feature-issue-templates.5484ff4
-    created: "2026-03-09T17:55:06.403290663Z"
-    description: Hetzner Cloud Node Driver for Rancher
-    digest: 24ce539aa127633333bab4607206d7def80fca325347c7eb45ec88f70fd2f782
-    icon: https://raw.githubusercontent.com/Zsys-Studio/rancher-hetzner-cluster-provider/main/docs/assets/logo.svg
-    name: hetzner-node-driver
-    type: application
-    urls:
-    - assets/hetzner-node-driver/hetzner-node-driver-0.0.0-dev.feature-issue-templates.5484ff4.tgz
-    version: 0.0.0-dev.feature-issue-templates.5484ff4
-  - annotations:
-      catalog.cattle.io/certified: rancher
-      catalog.cattle.io/display-name: Hetzner Cloud Node Driver
-      catalog.cattle.io/kube-version: '>= 1.26.0'
-      catalog.cattle.io/namespace: cattle-ui-plugin-system
-      catalog.cattle.io/os: linux
-      catalog.cattle.io/permits-os: linux, windows
-      catalog.cattle.io/rancher-version: '>= 2.11.0 < 2.14.0'
-      catalog.cattle.io/scope: management
-      catalog.cattle.io/ui-component: plugins
-      catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
-    apiVersion: v2
-    appVersion: 0.0.0-dev.feature-issue-templates.51b6414
-    created: "2026-03-09T17:48:07.706702932Z"
-    description: Hetzner Cloud Node Driver for Rancher
-    digest: 878f9fa2d36b868a5dd9648e93ae4591a7cf865619491416e4203d3a40740c9e
-    icon: https://raw.githubusercontent.com/Zsys-Studio/rancher-hetzner-cluster-provider/main/docs/assets/logo.svg
-    name: hetzner-node-driver
-    type: application
-    urls:
-    - assets/hetzner-node-driver/hetzner-node-driver-0.0.0-dev.feature-issue-templates.51b6414.tgz
-    version: 0.0.0-dev.feature-issue-templates.51b6414
-  - annotations:
-      catalog.cattle.io/certified: rancher
-      catalog.cattle.io/display-name: Hetzner Cloud Node Driver
-      catalog.cattle.io/kube-version: '>= 1.26.0'
-      catalog.cattle.io/namespace: cattle-ui-plugin-system
-      catalog.cattle.io/os: linux
-      catalog.cattle.io/permits-os: linux, windows
-      catalog.cattle.io/rancher-version: '>= 2.11.0 < 2.14.0'
-      catalog.cattle.io/scope: management
-      catalog.cattle.io/ui-component: plugins
-      catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
-    apiVersion: v2
-    appVersion: 0.0.0-dev.feature-issue-templates.46b8462
-    created: "2026-03-09T18:03:37.174907976Z"
-    description: Hetzner Cloud Node Driver for Rancher
-    digest: 3d840d48a46ed8908a576bba9b836b0efd4ecb2e17d5411f1614b581a7f034b6
-    icon: https://raw.githubusercontent.com/Zsys-Studio/rancher-hetzner-cluster-provider/main/docs/assets/logo.svg
-    name: hetzner-node-driver
-    type: application
-    urls:
-    - assets/hetzner-node-driver/hetzner-node-driver-0.0.0-dev.feature-issue-templates.46b8462.tgz
-    version: 0.0.0-dev.feature-issue-templates.46b8462
-  - annotations:
-      catalog.cattle.io/certified: rancher
-      catalog.cattle.io/display-name: Hetzner Cloud Node Driver
-      catalog.cattle.io/kube-version: '>= 1.26.0'
-      catalog.cattle.io/namespace: cattle-ui-plugin-system
-      catalog.cattle.io/os: linux
-      catalog.cattle.io/permits-os: linux, windows
-      catalog.cattle.io/rancher-version: '>= 2.11.0 < 2.14.0'
-      catalog.cattle.io/scope: management
-      catalog.cattle.io/ui-component: plugins
-      catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
-    apiVersion: v2
-    appVersion: 0.0.0-dev.develop.cad23f0
-    created: "2026-03-06T15:33:07.132629548Z"
-    description: Hetzner Cloud Node Driver for Rancher
-    digest: 3a418f3d879664ae635e4f46a857be572b8f41160b20fcf4374d00a31ef31ced
-    icon: https://raw.githubusercontent.com/Zsys-Studio/rancher-hetzner-cluster-provider/main/docs/assets/logo.svg
-    name: hetzner-node-driver
-    type: application
-    urls:
-    - assets/hetzner-node-driver/hetzner-node-driver-0.0.0-dev.develop.cad23f0.tgz
-    version: 0.0.0-dev.develop.cad23f0
-  - annotations:
-      catalog.cattle.io/certified: rancher
-      catalog.cattle.io/display-name: Hetzner Cloud Node Driver
-      catalog.cattle.io/kube-version: '>= 1.26.0'
-      catalog.cattle.io/namespace: cattle-ui-plugin-system
-      catalog.cattle.io/os: linux
-      catalog.cattle.io/permits-os: linux, windows
-      catalog.cattle.io/rancher-version: '>= 2.11.0 < 2.14.0'
-      catalog.cattle.io/scope: management
-      catalog.cattle.io/ui-component: plugins
-      catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
-    apiVersion: v2
-    appVersion: 0.0.0-dev.develop.7c9c5a5
-    created: "2026-03-06T18:32:18.026390377Z"
-    description: Hetzner Cloud Node Driver for Rancher
-    digest: 2c22927fffb3f2e73467ac32ef2fa002b67ce45b322ad99b3dd81d74be326c5d
-    icon: https://raw.githubusercontent.com/Zsys-Studio/rancher-hetzner-cluster-provider/main/docs/assets/logo.svg
-    name: hetzner-node-driver
-    type: application
-    urls:
-    - assets/hetzner-node-driver/hetzner-node-driver-0.0.0-dev.develop.7c9c5a5.tgz
-    version: 0.0.0-dev.develop.7c9c5a5
-  - annotations:
-      catalog.cattle.io/certified: rancher
-      catalog.cattle.io/display-name: Hetzner Cloud Node Driver
-      catalog.cattle.io/kube-version: '>= 1.26.0'
-      catalog.cattle.io/namespace: cattle-ui-plugin-system
-      catalog.cattle.io/os: linux
-      catalog.cattle.io/permits-os: linux, windows
-      catalog.cattle.io/rancher-version: '>= 2.11.0 < 2.14.0'
-      catalog.cattle.io/scope: management
-      catalog.cattle.io/ui-component: plugins
-      catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
-    apiVersion: v2
-    appVersion: 0.0.0-dev.develop.680fb90
-    created: "2026-03-06T19:13:38.777758427Z"
-    description: Hetzner Cloud Node Driver for Rancher
-    digest: 26da9b636837681918e3f3d9555034038c89efa4fb6738d6a3b8943021cabdb1
-    icon: https://raw.githubusercontent.com/Zsys-Studio/rancher-hetzner-cluster-provider/main/docs/assets/logo.svg
-    name: hetzner-node-driver
-    type: application
-    urls:
-    - assets/hetzner-node-driver/hetzner-node-driver-0.0.0-dev.develop.680fb90.tgz
-    version: 0.0.0-dev.develop.680fb90
-  - annotations:
-      catalog.cattle.io/certified: rancher
-      catalog.cattle.io/display-name: Hetzner Cloud Node Driver
-      catalog.cattle.io/kube-version: '>= 1.26.0'
-      catalog.cattle.io/namespace: cattle-ui-plugin-system
-      catalog.cattle.io/os: linux
-      catalog.cattle.io/permits-os: linux, windows
-      catalog.cattle.io/rancher-version: '>= 2.11.0 < 2.14.0'
-      catalog.cattle.io/scope: management
-      catalog.cattle.io/ui-component: plugins
-      catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
-    apiVersion: v2
-    appVersion: 0.0.0-dev.develop.40fa9e4
-    created: "2026-03-07T09:44:41.1805256Z"
-    description: Hetzner Cloud Node Driver for Rancher
-    digest: f875d181b0a6ebceeb1e16952b9948a05005393e10e52d75801acb51314f23a2
-    icon: https://raw.githubusercontent.com/Zsys-Studio/rancher-hetzner-cluster-provider/main/docs/assets/logo.svg
-    name: hetzner-node-driver
-    type: application
-    urls:
-    - assets/hetzner-node-driver/hetzner-node-driver-0.0.0-dev.develop.40fa9e4.tgz
-    version: 0.0.0-dev.develop.40fa9e4
-  - annotations:
-      catalog.cattle.io/certified: rancher
-      catalog.cattle.io/display-name: Hetzner Cloud Node Driver
-      catalog.cattle.io/kube-version: '>= 1.26.0'
-      catalog.cattle.io/namespace: cattle-ui-plugin-system
-      catalog.cattle.io/os: linux
-      catalog.cattle.io/permits-os: linux, windows
-      catalog.cattle.io/rancher-version: '>= 2.11.0 < 2.14.0'
-      catalog.cattle.io/scope: management
-      catalog.cattle.io/ui-component: plugins
-      catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
-    apiVersion: v2
-    appVersion: 0.0.0-dev.develop.16aa541
-    created: "2026-03-06T18:16:43.904103414Z"
-    description: Hetzner Cloud Node Driver for Rancher
-    digest: a9747abf301e6caf755122edd4e14e081b569491cefd2f1165e2393c8de507fb
-    icon: https://raw.githubusercontent.com/Zsys-Studio/rancher-hetzner-cluster-provider/main/docs/assets/logo.svg
-    name: hetzner-node-driver
-    type: application
-    urls:
-    - assets/hetzner-node-driver/hetzner-node-driver-0.0.0-dev.develop.16aa541.tgz
-    version: 0.0.0-dev.develop.16aa541
-  - annotations:
-      catalog.cattle.io/certified: rancher
-      catalog.cattle.io/display-name: Hetzner Cloud Node Driver
-      catalog.cattle.io/kube-version: '>= 1.26.0'
-      catalog.cattle.io/namespace: cattle-ui-plugin-system
-      catalog.cattle.io/os: linux
-      catalog.cattle.io/permits-os: linux, windows
-      catalog.cattle.io/rancher-version: '>= 2.11.0 < 2.14.0'
-      catalog.cattle.io/scope: management
-      catalog.cattle.io/ui-component: plugins
-      catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
-    apiVersion: v2
-    appVersion: 0.0.0-dev.develop.01c4354
-    created: "2026-03-09T18:08:38.361599648Z"
-    description: Hetzner Cloud Node Driver for Rancher
-    digest: 8e62cb1321bd0ca9d2845a0e995c08d66f189b141e3cf04705fc587243c6a851
-    icon: https://raw.githubusercontent.com/Zsys-Studio/rancher-hetzner-cluster-provider/main/docs/assets/logo.svg
-    name: hetzner-node-driver
-    type: application
-    urls:
-    - assets/hetzner-node-driver/hetzner-node-driver-0.0.0-dev.develop.01c4354.tgz
-    version: 0.0.0-dev.develop.01c4354
-generated: "2026-03-09T18:08:38.361162361Z"
+    - annotations:
+        catalog.cattle.io/certified: rancher
+        catalog.cattle.io/display-name: Hetzner Cloud Node Driver
+        catalog.cattle.io/kube-version: '>= 1.26.0'
+        catalog.cattle.io/namespace: cattle-ui-plugin-system
+        catalog.cattle.io/os: linux
+        catalog.cattle.io/permits-os: linux, windows
+        catalog.cattle.io/rancher-version: '>= 2.11.0 < 2.14.0'
+        catalog.cattle.io/scope: management
+        catalog.cattle.io/ui-component: plugins
+        catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
+      apiVersion: v2
+      appVersion: 1.0.0
+      created: "2026-02-16T08:01:25.162771923Z"
+      description: Hetzner Cloud Node Driver for Rancher
+      digest: fedf7da5e23af05fe6d84610ebdbf1cffa940c05b25eaaa2cc5d7a8c246df23b
+      name: hetzner-node-driver
+      type: application
+      urls:
+        - assets/hetzner-node-driver/hetzner-node-driver-1.0.0.tgz
+      version: 1.0.0
+    - annotations:
+        catalog.cattle.io/certified: rancher
+        catalog.cattle.io/display-name: Hetzner Cloud Node Driver
+        catalog.cattle.io/kube-version: '>= 1.26.0'
+        catalog.cattle.io/namespace: cattle-ui-plugin-system
+        catalog.cattle.io/os: linux
+        catalog.cattle.io/permits-os: linux, windows
+        catalog.cattle.io/rancher-version: '>= 2.11.0 < 2.14.0'
+        catalog.cattle.io/scope: management
+        catalog.cattle.io/ui-component: plugins
+        catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
+      apiVersion: v2
+      appVersion: 0.0.0-dev.develop.16aa541
+      created: "2026-03-06T18:16:43.904103414Z"
+      description: Hetzner Cloud Node Driver for Rancher
+      digest: a9747abf301e6caf755122edd4e14e081b569491cefd2f1165e2393c8de507fb
+      icon: https://raw.githubusercontent.com/Zsys-Studio/rancher-hetzner-cluster-provider/main/docs/assets/logo.svg
+      name: hetzner-node-driver
+      type: application
+      urls:
+        - assets/hetzner-node-driver/hetzner-node-driver-0.0.0-dev.develop.16aa541.tgz
+      version: 0.0.0-dev.develop.16aa541
+    - annotations:
+        catalog.cattle.io/certified: rancher
+        catalog.cattle.io/display-name: Hetzner Cloud Node Driver
+        catalog.cattle.io/kube-version: '>= 1.26.0'
+        catalog.cattle.io/namespace: cattle-ui-plugin-system
+        catalog.cattle.io/os: linux
+        catalog.cattle.io/permits-os: linux, windows
+        catalog.cattle.io/rancher-version: '>= 2.11.0 < 2.14.0'
+        catalog.cattle.io/scope: management
+        catalog.cattle.io/ui-component: plugins
+        catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
+      apiVersion: v2
+      appVersion: 0.0.0-dev.develop.7c9c5a5
+      created: "2026-03-06T18:32:18.026390377Z"
+      description: Hetzner Cloud Node Driver for Rancher
+      digest: 2c22927fffb3f2e73467ac32ef2fa002b67ce45b322ad99b3dd81d74be326c5d
+      icon: https://raw.githubusercontent.com/Zsys-Studio/rancher-hetzner-cluster-provider/main/docs/assets/logo.svg
+      name: hetzner-node-driver
+      type: application
+      urls:
+        - assets/hetzner-node-driver/hetzner-node-driver-0.0.0-dev.develop.7c9c5a5.tgz
+      version: 0.0.0-dev.develop.7c9c5a5
+    - annotations:
+        catalog.cattle.io/certified: rancher
+        catalog.cattle.io/display-name: Hetzner Cloud Node Driver
+        catalog.cattle.io/kube-version: '>= 1.26.0'
+        catalog.cattle.io/namespace: cattle-ui-plugin-system
+        catalog.cattle.io/os: linux
+        catalog.cattle.io/permits-os: linux, windows
+        catalog.cattle.io/rancher-version: '>= 2.11.0 < 2.14.0'
+        catalog.cattle.io/scope: management
+        catalog.cattle.io/ui-component: plugins
+        catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
+      apiVersion: v2
+      appVersion: 0.0.0-dev.develop.680fb90
+      created: "2026-03-06T19:13:38.777758427Z"
+      description: Hetzner Cloud Node Driver for Rancher
+      digest: 26da9b636837681918e3f3d9555034038c89efa4fb6738d6a3b8943021cabdb1
+      icon: https://raw.githubusercontent.com/Zsys-Studio/rancher-hetzner-cluster-provider/main/docs/assets/logo.svg
+      name: hetzner-node-driver
+      type: application
+      urls:
+        - assets/hetzner-node-driver/hetzner-node-driver-0.0.0-dev.develop.680fb90.tgz
+      version: 0.0.0-dev.develop.680fb90
+    - annotations:
+        catalog.cattle.io/certified: rancher
+        catalog.cattle.io/display-name: Hetzner Cloud Node Driver
+        catalog.cattle.io/kube-version: '>= 1.26.0'
+        catalog.cattle.io/namespace: cattle-ui-plugin-system
+        catalog.cattle.io/os: linux
+        catalog.cattle.io/permits-os: linux, windows
+        catalog.cattle.io/rancher-version: '>= 2.11.0 < 2.14.0'
+        catalog.cattle.io/scope: management
+        catalog.cattle.io/ui-component: plugins
+        catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
+      apiVersion: v2
+      appVersion: 0.0.0-dev.feature-release-notes.d6f4b58
+      created: "2026-03-06T19:15:26.602069896Z"
+      description: Hetzner Cloud Node Driver for Rancher
+      digest: 5307c59f186a5b1b509ce3a166ed59434dc4f33ef04743d89dfa72352ab044d9
+      icon: https://raw.githubusercontent.com/Zsys-Studio/rancher-hetzner-cluster-provider/main/docs/assets/logo.svg
+      name: hetzner-node-driver
+      type: application
+      urls:
+        - assets/hetzner-node-driver/hetzner-node-driver-0.0.0-dev.feature-release-notes.d6f4b58.tgz
+      version: 0.0.0-dev.feature-release-notes.d6f4b58
+    - annotations:
+        catalog.cattle.io/certified: rancher
+        catalog.cattle.io/display-name: Hetzner Cloud Node Driver
+        catalog.cattle.io/kube-version: '>= 1.26.0'
+        catalog.cattle.io/namespace: cattle-ui-plugin-system
+        catalog.cattle.io/os: linux
+        catalog.cattle.io/permits-os: linux, windows
+        catalog.cattle.io/rancher-version: '>= 2.11.0 < 2.14.0'
+        catalog.cattle.io/scope: management
+        catalog.cattle.io/ui-component: plugins
+        catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
+      apiVersion: v2
+      appVersion: 0.0.0-dev.develop.40fa9e4
+      created: "2026-03-07T09:44:41.1805256Z"
+      description: Hetzner Cloud Node Driver for Rancher
+      digest: f875d181b0a6ebceeb1e16952b9948a05005393e10e52d75801acb51314f23a2
+      icon: https://raw.githubusercontent.com/Zsys-Studio/rancher-hetzner-cluster-provider/main/docs/assets/logo.svg
+      name: hetzner-node-driver
+      type: application
+      urls:
+        - assets/hetzner-node-driver/hetzner-node-driver-0.0.0-dev.develop.40fa9e4.tgz
+      version: 0.0.0-dev.develop.40fa9e4
+    - annotations:
+        catalog.cattle.io/certified: rancher
+        catalog.cattle.io/display-name: Hetzner Cloud Node Driver
+        catalog.cattle.io/kube-version: '>= 1.26.0'
+        catalog.cattle.io/namespace: cattle-ui-plugin-system
+        catalog.cattle.io/os: linux
+        catalog.cattle.io/permits-os: linux, windows
+        catalog.cattle.io/rancher-version: '>= 2.11.0 < 2.14.0'
+        catalog.cattle.io/scope: management
+        catalog.cattle.io/ui-component: plugins
+        catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
+      apiVersion: v2
+      appVersion: 0.0.0-dev.feature-issue-templates.51b6414
+      created: "2026-03-09T17:48:07.706702932Z"
+      description: Hetzner Cloud Node Driver for Rancher
+      digest: 878f9fa2d36b868a5dd9648e93ae4591a7cf865619491416e4203d3a40740c9e
+      icon: https://raw.githubusercontent.com/Zsys-Studio/rancher-hetzner-cluster-provider/main/docs/assets/logo.svg
+      name: hetzner-node-driver
+      type: application
+      urls:
+        - assets/hetzner-node-driver/hetzner-node-driver-0.0.0-dev.feature-issue-templates.51b6414.tgz
+      version: 0.0.0-dev.feature-issue-templates.51b6414
+    - annotations:
+        catalog.cattle.io/certified: rancher
+        catalog.cattle.io/display-name: Hetzner Cloud Node Driver
+        catalog.cattle.io/kube-version: '>= 1.26.0'
+        catalog.cattle.io/namespace: cattle-ui-plugin-system
+        catalog.cattle.io/os: linux
+        catalog.cattle.io/permits-os: linux, windows
+        catalog.cattle.io/rancher-version: '>= 2.11.0 < 2.14.0'
+        catalog.cattle.io/scope: management
+        catalog.cattle.io/ui-component: plugins
+        catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
+      apiVersion: v2
+      appVersion: 0.0.0-dev.feature-issue-templates.5484ff4
+      created: "2026-03-09T17:55:06.403290663Z"
+      description: Hetzner Cloud Node Driver for Rancher
+      digest: 24ce539aa127633333bab4607206d7def80fca325347c7eb45ec88f70fd2f782
+      icon: https://raw.githubusercontent.com/Zsys-Studio/rancher-hetzner-cluster-provider/main/docs/assets/logo.svg
+      name: hetzner-node-driver
+      type: application
+      urls:
+        - assets/hetzner-node-driver/hetzner-node-driver-0.0.0-dev.feature-issue-templates.5484ff4.tgz
+      version: 0.0.0-dev.feature-issue-templates.5484ff4
+    - annotations:
+        catalog.cattle.io/certified: rancher
+        catalog.cattle.io/display-name: Hetzner Cloud Node Driver
+        catalog.cattle.io/kube-version: '>= 1.26.0'
+        catalog.cattle.io/namespace: cattle-ui-plugin-system
+        catalog.cattle.io/os: linux
+        catalog.cattle.io/permits-os: linux, windows
+        catalog.cattle.io/rancher-version: '>= 2.11.0 < 2.14.0'
+        catalog.cattle.io/scope: management
+        catalog.cattle.io/ui-component: plugins
+        catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
+      apiVersion: v2
+      appVersion: 0.0.0-dev.feature-issue-templates.46b8462
+      created: "2026-03-09T18:03:37.174907976Z"
+      description: Hetzner Cloud Node Driver for Rancher
+      digest: 3d840d48a46ed8908a576bba9b836b0efd4ecb2e17d5411f1614b581a7f034b6
+      icon: https://raw.githubusercontent.com/Zsys-Studio/rancher-hetzner-cluster-provider/main/docs/assets/logo.svg
+      name: hetzner-node-driver
+      type: application
+      urls:
+        - assets/hetzner-node-driver/hetzner-node-driver-0.0.0-dev.feature-issue-templates.46b8462.tgz
+      version: 0.0.0-dev.feature-issue-templates.46b8462
+    - annotations:
+        catalog.cattle.io/certified: rancher
+        catalog.cattle.io/display-name: Hetzner Cloud Node Driver
+        catalog.cattle.io/kube-version: '>= 1.26.0'
+        catalog.cattle.io/namespace: cattle-ui-plugin-system
+        catalog.cattle.io/os: linux
+        catalog.cattle.io/permits-os: linux, windows
+        catalog.cattle.io/rancher-version: '>= 2.11.0 < 2.14.0'
+        catalog.cattle.io/scope: management
+        catalog.cattle.io/ui-component: plugins
+        catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
+      apiVersion: v2
+      appVersion: 0.0.0-dev.develop.01c4354
+      created: "2026-03-09T18:08:38.361599648Z"
+      description: Hetzner Cloud Node Driver for Rancher
+      digest: 8e62cb1321bd0ca9d2845a0e995c08d66f189b141e3cf04705fc587243c6a851
+      icon: https://raw.githubusercontent.com/Zsys-Studio/rancher-hetzner-cluster-provider/main/docs/assets/logo.svg
+      name: hetzner-node-driver
+      type: application
+      urls:
+        - assets/hetzner-node-driver/hetzner-node-driver-0.0.0-dev.develop.01c4354.tgz
+      version: 0.0.0-dev.develop.01c4354
+    - annotations:
+        catalog.cattle.io/certified: rancher
+        catalog.cattle.io/display-name: Hetzner Cloud Node Driver
+        catalog.cattle.io/kube-version: '>= 1.26.0'
+        catalog.cattle.io/namespace: cattle-ui-plugin-system
+        catalog.cattle.io/os: linux
+        catalog.cattle.io/permits-os: linux, windows
+        catalog.cattle.io/rancher-version: '>= 2.11.0 < 2.14.0'
+        catalog.cattle.io/scope: management
+        catalog.cattle.io/ui-component: plugins
+        catalog.cattle.io/ui-extensions-version: '>= 3.0.0 < 4.0.0'
+      apiVersion: v2
+      appVersion: 0.0.0-dev.develop.113fa77
+      created: "2026-03-09T18:24:49.039121598Z"
+      description: Hetzner Cloud Node Driver for Rancher
+      digest: d9fe20330857ba3b80583bd8bae4204646ed2187794d7b5a66292aaf9d6248ac
+      icon: https://raw.githubusercontent.com/Zsys-Studio/rancher-hetzner-cluster-provider/main/docs/assets/logo.svg
+      name: hetzner-node-driver
+      type: application
+      urls:
+        - assets/hetzner-node-driver/hetzner-node-driver-0.0.0-dev.develop.113fa77.tgz
+      version: 0.0.0-dev.develop.113fa77
+generated: "2026-03-09T18:24:49.038748517Z"
